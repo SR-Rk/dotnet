@@ -23,6 +23,16 @@ public class HomeController : Controller
         return View();
     }
 
+    [HttpPost]
+    public IActionResult Contact(string name, string email, string subject, string message)
+    {
+        // In a real application, you would save this to a database or send an email
+        _logger.LogInformation("Contact form submitted: {Name}, {Email}, {Subject}", name, email, subject);
+
+        // For now, just return a success response
+        return Json(new { success = true, message = "Thank you for your message! We will get back to you soon." });
+    }
+
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
