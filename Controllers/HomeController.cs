@@ -24,6 +24,7 @@ public class HomeController : Controller
     }
 
     [HttpPost]
+    [ValidateAntiForgeryToken]
     public IActionResult Contact(string name, string email, string subject, string message)
     {
         // In a real application, you would save this to a database or send an email
