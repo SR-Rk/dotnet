@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using LearnSphere.Models;
 
@@ -7,13 +8,37 @@ namespace LearnSphere.Controllers;
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
+    private readonly UserManager<ApplicationUser> _userManager;
 
-    public HomeController(ILogger<HomeController> logger)
+    public HomeController(ILogger<HomeController> logger, UserManager<ApplicationUser> userManager)
     {
         _logger = logger;
+        _userManager = userManager;
     }
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
+    {
+        // If user is authenticated, redirect to appropriate dashboard
+        if (User.Identity?.IsAuthenticated == true)
+        {
+            var currentUser = await _userManager.GetUserAsync(User);
+            if (currentUser != null)
+            {
+                if (await _userManager.IsInRoleAsync(currentUser, "Admin"))
+                {
+                    return RedirectToAction("Dashboard", "Admin");
+                }
+                else if (await _userManager.IsInRoleAsync(currentUser, "Student"))
+                {
+                    return RedirectToAction("Dashboard", "Student");
+                }
+            }
+        }
+
+        return View();
+    }
+
+    public IActionResult About()
     {
         return View();
     }
