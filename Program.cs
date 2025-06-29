@@ -35,13 +35,16 @@ builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
-// Seed the database
+// Initialize database and seed data
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
     var context = services.GetRequiredService<ApplicationDbContext>();
     var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
     var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+
+    // Ensure database is created
+    await context.Database.EnsureCreatedAsync();
 
     await SeedData.Initialize(services, userManager, roleManager);
 }

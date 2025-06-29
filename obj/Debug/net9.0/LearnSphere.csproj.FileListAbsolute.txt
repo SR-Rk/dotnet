@@ -325,7 +325,6 @@ D:/dotnet/LearnSphere/obj/Debug/net9.0/LearnSphere.genruntimeconfig.cache
 D:/dotnet/LearnSphere/obj/Debug/net9.0/ref/LearnSphere.dll
 /app/code/bin/Debug/net9.0/appsettings.Development.json
 /app/code/bin/Debug/net9.0/appsettings.json
-/app/code/bin/Debug/net9.0/app.db
 /app/code/bin/Debug/net9.0/package.json
 /app/code/bin/Debug/net9.0/LearnSphere.staticwebassets.runtime.json
 /app/code/bin/Debug/net9.0/LearnSphere.staticwebassets.endpoints.json
