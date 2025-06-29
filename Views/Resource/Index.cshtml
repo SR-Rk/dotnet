@@ -30,7 +30,7 @@
                     <form method="get" class="row g-3">
                         <div class="col-md-4">
                             <label for="searchTerm" class="form-label">Search Resources</label>
-                            <input type="text" class="form-control" id="searchTerm" name="searchTerm" 
+                            <input type="text" class="form-control" id="searchTerm" name="searchTerm"
                                    value="@Model.SearchTerm" placeholder="Search by title, description, or tags...">
                         </div>
                         <div class="col-md-3">
@@ -39,7 +39,7 @@
                                 <option value="">All Categories</option>
                                 @foreach (var category in Model.Categories)
                                 {
-                                    <option value="@category" @(Model.SelectedCategory == category ? "selected" : "")>@category</option>
+                                    <option value="@category" selected="@(Model.SelectedCategory == category)">@category</option>
                                 }
                             </select>
                         </div>
@@ -119,35 +119,35 @@
                             @if (Model.CurrentPage > 1)
                             {
                                 <li class="page-item">
-                                    <a class="page-link" href="@Url.Action("Index", new { 
-                                        page = Model.CurrentPage - 1, 
-                                        searchTerm = Model.SearchTerm, 
+                                    <a class="page-link" href="@Url.Action("Index", new {
+                                        page = Model.CurrentPage - 1,
+                                        searchTerm = Model.SearchTerm,
                                         category = Model.SelectedCategory,
-                                        resourceType = Model.SelectedResourceType 
+                                        resourceType = Model.SelectedResourceType
                                     })">Previous</a>
                                 </li>
                             }
-                            
+
                             @for (int i = Math.Max(1, Model.CurrentPage - 2); i <= Math.Min(Model.TotalPages, Model.CurrentPage + 2); i++)
                             {
                                 <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
-                                    <a class="page-link" href="@Url.Action("Index", new { 
-                                        page = i, 
-                                        searchTerm = Model.SearchTerm, 
+                                    <a class="page-link" href="@Url.Action("Index", new {
+                                        page = i,
+                                        searchTerm = Model.SearchTerm,
                                         category = Model.SelectedCategory,
-                                        resourceType = Model.SelectedResourceType 
+                                        resourceType = Model.SelectedResourceType
                                     })">@i</a>
                                 </li>
                             }
-                            
+
                             @if (Model.CurrentPage < Model.TotalPages)
                             {
                                 <li class="page-item">
-                                    <a class="page-link" href="@Url.Action("Index", new { 
-                                        page = Model.CurrentPage + 1, 
-                                        searchTerm = Model.SearchTerm, 
+                                    <a class="page-link" href="@Url.Action("Index", new {
+                                        page = Model.CurrentPage + 1,
+                                        searchTerm = Model.SearchTerm,
                                         category = Model.SelectedCategory,
-                                        resourceType = Model.SelectedResourceType 
+                                        resourceType = Model.SelectedResourceType
                                     })">Next</a>
                                 </li>
                             }
