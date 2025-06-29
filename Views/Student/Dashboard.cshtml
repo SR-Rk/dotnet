@@ -1,0 +1,298 @@
+@model LearnSphere.Models.ViewModels.StudentDashboardViewModel
+@{
+    ViewData["Title"] = "Student Dashboard";
+    Layout = "~/Views/Shared/_StudentLayout.cshtml";
+}
+
+<div class="row mb-4">
+    <div class="col">
+        <h1 class="h3 mb-1">Welcome back, @Model.Student.FullName!</h1>
+        <p class="text-muted">Continue your learning journey</p>
+    </div>
+</div>
+
+<!-- Progress Cards -->
+<div class="row g-4 mb-4">
+    <div class="col-lg-3 col-md-6">
+        <div class="card bg-primary text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="text-uppercase text-light mb-1">Resources Accessed</h6>
+                        <span class="h2 mb-0">@Model.TotalResourcesAccessed</span>
+                    </div>
+                    <i class="fas fa-book fa-2x opacity-75"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6">
+        <div class="card bg-success text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="text-uppercase text-light mb-1">Quizzes Completed</h6>
+                        <span class="h2 mb-0">@Model.QuizzesCompleted</span>
+                    </div>
+                    <i class="fas fa-check-circle fa-2x opacity-75"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6">
+        <div class="card bg-info text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="text-uppercase text-light mb-1">Average Score</h6>
+                        <span class="h2 mb-0">@Model.AverageScore.ToString("F1")%</span>
+                    </div>
+                    <i class="fas fa-chart-line fa-2x opacity-75"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6">
+        <div class="card bg-warning text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="text-uppercase text-light mb-1">Time Spent</h6>
+                        <span class="h2 mb-0">@Model.TotalTimeSpent<small class="fs-6">min</small></span>
+                    </div>
+                    <i class="fas fa-clock fa-2x opacity-75"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <!-- In Progress -->
+    <div class="col-lg-6">
+        <div class="card h-100">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-play-circle text-warning me-2"></i>Continue Learning
+                </h5>
+                <a asp-action="ViewResources" class="btn btn-sm btn-outline-primary">View All</a>
+            </div>
+            <div class="card-body">
+                @if (Model.InProgressItems.Any())
+                {
+                    @foreach (var item in Model.InProgressItems)
+                    {
+                        <div class="d-flex align-items-center mb-3 p-3 bg-light rounded">
+                            <div class="flex-grow-1">
+                                @if (item.Resource != null)
+                                {
+                                    <h6 class="mb-1">@item.Resource.Title</h6>
+                                    <p class="mb-1 text-muted small">@item.Resource.Description.Substring(0, Math.Min(item.Resource.Description.Length, 60))...</p>
+                                    <small class="text-muted">Last accessed: @item.LastAccessed.ToString("MMM dd, yyyy")</small>
+                                }
+                                else if (item.Quiz != null)
+                                {
+                                    <h6 class="mb-1">@item.Quiz.Title</h6>
+                                    <p class="mb-1 text-muted small">Quiz - @item.AttemptCount attempt(s)</p>
+                                    <small class="text-muted">Last accessed: @item.LastAccessed.ToString("MMM dd, yyyy")</small>
+                                }
+                            </div>
+                            <div>
+                                @if (item.Resource != null)
+                                {
+                                    <a asp-action="ResourceDetails" asp-route-id="@item.ResourceId" 
+                                       class="btn btn-sm btn-primary">Continue</a>
+                                }
+                                else if (item.Quiz != null)
+                                {
+                                    <a asp-action="TakeQuiz" asp-route-id="@item.QuizId" 
+                                       class="btn btn-sm btn-primary">Continue</a>
+                                }
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="text-center py-4">
+                        <i class="fas fa-tasks fa-3x text-muted mb-3"></i>
+                        <p class="text-muted">No items in progress. Start exploring resources!</p>
+                        <a asp-action="ViewResources" class="btn btn-primary">Browse Resources</a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Recommended Resources -->
+    <div class="col-lg-6">
+        <div class="card h-100">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-star text-warning me-2"></i>Recommended for You
+                </h5>
+                <a asp-action="ViewResources" class="btn btn-sm btn-outline-primary">Explore More</a>
+            </div>
+            <div class="card-body">
+                @if (Model.RecommendedResources.Any())
+                {
+                    @foreach (var resource in Model.RecommendedResources)
+                    {
+                        <div class="d-flex align-items-center mb-3 p-3 bg-light rounded">
+                            <div class="flex-grow-1">
+                                <h6 class="mb-1">@resource.Title</h6>
+                                <p class="mb-1 text-muted small">@resource.Description.Substring(0, Math.Min(resource.Description.Length, 60))...</p>
+                                <div class="d-flex align-items-center">
+                                    <span class="badge bg-secondary me-2">@resource.ResourceType</span>
+                                    <small class="text-muted">@resource.ViewCount views</small>
+                                </div>
+                            </div>
+                            <div>
+                                <a asp-action="ResourceDetails" asp-route-id="@resource.Id" 
+                                   class="btn btn-sm btn-outline-primary">View</a>
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="text-center py-4">
+                        <i class="fas fa-lightbulb fa-3x text-muted mb-3"></i>
+                        <p class="text-muted">Great job! You've accessed many resources. Keep exploring!</p>
+                        <a asp-action="ViewResources" class="btn btn-primary">Browse All Resources</a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Activity -->
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-history text-info me-2"></i>Recent Activity
+                </h5>
+            </div>
+            <div class="card-body">
+                @if (Model.RecentProgress.Any())
+                {
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Resource/Quiz</th>
+                                    <th>Type</th>
+                                    <th>Status</th>
+                                    <th>Score</th>
+                                    <th>Last Accessed</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var progress in Model.RecentProgress)
+                                {
+                                    <tr>
+                                        <td>
+                                            @if (progress.Resource != null)
+                                            {
+                                                <div>
+                                                    <h6 class="mb-0">@progress.Resource.Title</h6>
+                                                    <small class="text-muted">@progress.Resource.Category</small>
+                                                </div>
+                                            }
+                                            else if (progress.Quiz != null)
+                                            {
+                                                <div>
+                                                    <h6 class="mb-0">@progress.Quiz.Title</h6>
+                                                    <small class="text-muted">Quiz</small>
+                                                </div>
+                                            }
+                                        </td>
+                                        <td>
+                                            @if (progress.Resource != null)
+                                            {
+                                                <span class="badge bg-info">@progress.Resource.ResourceType</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge bg-warning">Quiz</span>
+                                            }
+                                        </td>
+                                        <td>
+                                            <span class="badge bg-@(progress.CompletionStatus switch {
+                                                "Completed" => "success",
+                                                "Failed" => "danger",
+                                                "In Progress" => "warning",
+                                                _ => "secondary"
+                                            })">
+                                                @progress.CompletionStatus
+                                            </span>
+                                        </td>
+                                        <td>
+                                            @if (progress.ScorePercentage.HasValue)
+                                            {
+                                                <span class="fw-bold text-@(progress.ScorePercentage >= 70 ? "success" : "danger")">
+                                                    @progress.ScorePercentage.Value.ToString("F1")%
+                                                </span>
+                                            }
+                                            else
+                                            {
+                                                <span class="text-muted">-</span>
+                                            }
+                                        </td>
+                                        <td>@progress.LastAccessed.ToString("MMM dd, yyyy")</td>
+                                        <td>
+                                            @if (progress.Resource != null)
+                                            {
+                                                <a asp-action="ResourceDetails" asp-route-id="@progress.ResourceId" 
+                                                   class="btn btn-sm btn-outline-primary">View</a>
+                                            }
+                                            else if (progress.Quiz != null && progress.CompletionStatus != "Completed")
+                                            {
+                                                <a asp-action="TakeQuiz" asp-route-id="@progress.QuizId" 
+                                                   class="btn btn-sm btn-outline-primary">Retake</a>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <div class="text-center py-4">
+                        <i class="fas fa-chart-line fa-3x text-muted mb-3"></i>
+                        <p class="text-muted">No activity yet. Start learning to see your progress here!</p>
+                        <a asp-action="ViewResources" class="btn btn-primary">Get Started</a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Quick Actions -->
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card bg-light">
+            <div class="card-body text-center">
+                <h5 class="card-title">Quick Actions</h5>
+                <div class="d-flex justify-content-center gap-3 flex-wrap">
+                    <a asp-action="ViewResources" class="btn btn-primary">
+                        <i class="fas fa-book me-2"></i>Browse Resources
+                    </a>
+                    <a asp-action="SelfAssessments" class="btn btn-success">
+                        <i class="fas fa-question-circle me-2"></i>Take a Quiz
+                    </a>
+                    <a asp-action="Profile" class="btn btn-info">
+                        <i class="fas fa-user me-2"></i>Update Profile
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
