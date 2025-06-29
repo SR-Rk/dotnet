@@ -17,16 +17,16 @@
         <form method="get" class="row g-3">
             <div class="col-md-4">
                 <label for="searchTerm" class="form-label">Search Users</label>
-                <input type="text" class="form-control" id="searchTerm" name="searchTerm" 
+                <input type="text" class="form-control" id="searchTerm" name="searchTerm"
                        value="@ViewBag.SearchTerm" placeholder="Search by name or email...">
             </div>
             <div class="col-md-3">
                 <label for="role" class="form-label">Filter by Role</label>
-                <select class="form-select" id="role" name="role">
-                    <option value="">All Roles</option>
-                    <option value="Admin" @(ViewBag.SelectedRole == "Admin" ? "selected" : "")>Admin</option>
-                    <option value="Student" @(ViewBag.SelectedRole == "Student" ? "selected" : "")>Student</option>
-                </select>
+                            <select class="form-select" id="role" name="role">
+                                <option value="">All Roles</option>
+                                <option value="Admin" selected="@(ViewBag.SelectedRole == "Admin")">Admin</option>
+                                <option value="Student" selected="@(ViewBag.SelectedRole == "Student")">Student</option>
+                            </select>
             </div>
             <div class="col-md-2 d-flex align-items-end">
                 <button type="submit" class="btn btn-outline-primary w-100">
@@ -93,20 +93,20 @@
                                 </td>
                                 <td>
                                     <div class="btn-group" role="group">
-                                        <a asp-action="UserDetails" asp-route-id="@user.Id" 
+                                        <a asp-action="UserDetails" asp-route-id="@user.Id"
                                            class="btn btn-sm btn-outline-info" title="View Details">
                                             <i class="fas fa-eye"></i>
                                         </a>
-                                        <form asp-action="ToggleUserStatus" asp-route-userId="@user.Id" 
+                                        <form asp-action="ToggleUserStatus" asp-route-userId="@user.Id"
                                               method="post" class="d-inline">
-                                            <button type="submit" class="btn btn-sm btn-outline-@(user.IsActive ? "warning" : "success")" 
+                                            <button type="submit" class="btn btn-sm btn-outline-@(user.IsActive ? "warning" : "success")"
                                                     title="@(user.IsActive ? "Deactivate" : "Activate")">
                                                 <i class="fas fa-@(user.IsActive ? "ban" : "check")"></i>
                                             </button>
                                         </form>
                                         @if (user.Email != User.Identity?.Name)
                                         {
-                                            <button type="button" class="btn btn-sm btn-outline-danger" 
+                                            <button type="button" class="btn btn-sm btn-outline-danger"
                                                     onclick="confirmDelete('@user.Id', '@user.FullName')" title="Delete">
                                                 <i class="fas fa-trash"></i>
                                             </button>
@@ -127,10 +127,10 @@
                         @for (int i = 1; i <= ViewBag.TotalPages; i++)
                         {
                             <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
-                                <a class="page-link" href="@Url.Action("ManageUsers", new { 
-                                    page = i, 
-                                    searchTerm = ViewBag.SearchTerm, 
-                                    role = ViewBag.SelectedRole 
+                                <a class="page-link" href="@Url.Action("ManageUsers", new {
+                                    page = i,
+                                    searchTerm = ViewBag.SearchTerm,
+                                    role = ViewBag.SelectedRole
                                 })">@i</a>
                             </li>
                         }
