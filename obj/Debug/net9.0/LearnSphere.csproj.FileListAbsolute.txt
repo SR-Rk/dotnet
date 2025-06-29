@@ -651,3 +651,4 @@ D:/dotnet/LearnSphere/obj/Debug/net9.0/ref/LearnSphere.dll
 /app/code/obj/Debug/net9.0/LearnSphere.pdb
 /app/code/obj/Debug/net9.0/LearnSphere.genruntimeconfig.cache
 /app/code/obj/Debug/net9.0/ref/LearnSphere.dll
+/app/code/bin/Debug/net9.0/app.db
