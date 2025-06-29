@@ -233,7 +233,8 @@
         <div class="row justify-content-center">
             <div class="col-lg-8">
                 <div class="contact-form-container">
-                    <form id="contactForm" class="contact-form">
+                    <form id="contactForm" class="contact-form" asp-controller="Home" asp-action="Contact" method="post">
+                        @Html.AntiForgeryToken()
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <div class="form-floating">
@@ -260,7 +261,10 @@
                                 </div>
                             </div>
                             <div class="col-12 text-center">
-                                <button type="submit" class="btn btn-primary btn-lg">Send Message</button>
+                                <button type="submit" class="btn btn-primary btn-lg">
+                                    <span class="submit-text">Send Message</span>
+                                    <span class="loading d-none">Sending...</span>
+                                </button>
                             </div>
                         </div>
                     </form>
