@@ -49,7 +49,7 @@
                                 <option value="">All Types</option>
                                 @foreach (var type in Model.ResourceTypes)
                                 {
-                                    <option value="@type" @(Model.SelectedResourceType == type ? "selected" : "")>@type</option>
+                                    <option value="@type" selected="@(Model.SelectedResourceType == type)">@type</option>
                                 }
                             </select>
                         </div>
