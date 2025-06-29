@@ -48,11 +48,6 @@ public class HomeController : Controller
         return View();
     }
 
-    public IActionResult About()
-    {
-        return View();
-    }
-
     [HttpPost]
     [ValidateAntiForgeryToken]
     public IActionResult Contact(string name, string email, string subject, string message)
