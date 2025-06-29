@@ -1,0 +1,215 @@
+@model LearnSphere.Models.ViewModels.AdminDashboardViewModel
+@{
+    ViewData["Title"] = "Admin Dashboard";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3 mb-0">Admin Dashboard</h1>
+    <div class="text-muted">
+        <i class="fas fa-clock"></i> Last updated: @DateTime.Now.ToString("MMM dd, yyyy HH:mm")
+    </div>
+</div>
+
+<!-- Statistics Cards -->
+<div class="row g-4 mb-4">
+    <div class="col-xl-3 col-md-6">
+        <div class="card bg-primary text-white">
+            <div class="card-body">
+                <div class="row align-items-center">
+                    <div class="col">
+                        <h6 class="text-uppercase text-light mb-2">Total Users</h6>
+                        <span class="h2 mb-0">@Model.TotalUsers</span>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-users fa-2x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6">
+        <div class="card bg-success text-white">
+            <div class="card-body">
+                <div class="row align-items-center">
+                    <div class="col">
+                        <h6 class="text-uppercase text-light mb-2">Students</h6>
+                        <span class="h2 mb-0">@Model.TotalStudents</span>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-graduation-cap fa-2x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6">
+        <div class="card bg-info text-white">
+            <div class="card-body">
+                <div class="row align-items-center">
+                    <div class="col">
+                        <h6 class="text-uppercase text-light mb-2">Resources</h6>
+                        <span class="h2 mb-0">@Model.TotalResources</span>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-book fa-2x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6">
+        <div class="card bg-warning text-white">
+            <div class="card-body">
+                <div class="row align-items-center">
+                    <div class="col">
+                        <h6 class="text-uppercase text-light mb-2">Quizzes</h6>
+                        <span class="h2 mb-0">@Model.TotalQuizzes</span>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-question-circle fa-2x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Charts and Analytics -->
+<div class="row g-4 mb-4">
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Resource Type Distribution</h5>
+            </div>
+            <div class="card-body">
+                <canvas id="resourceChart" width="400" height="200"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Quick Stats</h5>
+            </div>
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <span>Active Resources</span>
+                    <span class="badge bg-success">@Model.ActiveResources</span>
+                </div>
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <span>Admins</span>
+                    <span class="badge bg-danger">@Model.TotalAdmins</span>
+                </div>
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <span>Recent Registrations (7 days)</span>
+                    <span class="badge bg-info">@Model.RecentRegistrations</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Activity -->
+<div class="row g-4">
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="card-title mb-0">Recent Resources</h5>
+                <a asp-action="ManageResources" class="btn btn-sm btn-outline-primary">View All</a>
+            </div>
+            <div class="card-body">
+                @if (Model.RecentResources.Any())
+                {
+                    <div class="list-group list-group-flush">
+                        @foreach (var resource in Model.RecentResources)
+                        {
+                            <div class="list-group-item border-0 px-0">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div>
+                                        <h6 class="mb-1">@resource.Title</h6>
+                                        <p class="mb-1 text-muted small">@resource.Description.Substring(0, Math.Min(resource.Description.Length, 60))...</p>
+                                        <small class="text-muted">@resource.UploadDate.ToString("MMM dd, yyyy")</small>
+                                    </div>
+                                    <span class="badge bg-secondary">@resource.ResourceType</span>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <p class="text-muted">No recent resources found.</p>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="card-title mb-0">Recent Users</h5>
+                <a asp-action="ManageUsers" class="btn btn-sm btn-outline-primary">View All</a>
+            </div>
+            <div class="card-body">
+                @if (Model.RecentUsers.Any())
+                {
+                    <div class="list-group list-group-flush">
+                        @foreach (var user in Model.RecentUsers)
+                        {
+                            <div class="list-group-item border-0 px-0">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="mb-1">@user.FullName</h6>
+                                        <p class="mb-1 text-muted small">@user.Email</p>
+                                        <small class="text-muted">Joined @user.RegistrationDate.ToString("MMM dd, yyyy")</small>
+                                    </div>
+                                    <span class="badge bg-@(user.Role == "Admin" ? "danger" : "success")">@user.Role</span>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <p class="text-muted">No recent users found.</p>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Resource Type Chart
+        const ctx = document.getElementById('resourceChart').getContext('2d');
+        const resourceData = @Html.Raw(Json.Serialize(Model.ResourceTypeStats));
+        
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: Object.keys(resourceData),
+                datasets: [{
+                    data: Object.values(resourceData),
+                    backgroundColor: [
+                        '#007bff',
+                        '#28a745',
+                        '#ffc107',
+                        '#dc3545',
+                        '#6f42c1',
+                        '#fd7e14'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+    </script>
+}

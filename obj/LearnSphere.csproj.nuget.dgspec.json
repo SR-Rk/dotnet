@@ -1,32 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "D:\\dotnet\\LearnSphere\\LearnSphere.csproj": {}
+    "/app/code/LearnSphere.csproj": {}
   },
   "projects": {
-    "D:\\dotnet\\LearnSphere\\LearnSphere.csproj": {
+    "/app/code/LearnSphere.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\dotnet\\LearnSphere\\LearnSphere.csproj",
+        "projectUniqueName": "/app/code/LearnSphere.csproj",
         "projectName": "LearnSphere",
-        "projectPath": "D:\\dotnet\\LearnSphere\\LearnSphere.csproj",
-        "packagesPath": "C:\\Users\\kuink\\.nuget\\packages\\",
-        "outputPath": "D:\\dotnet\\LearnSphere\\obj\\",
+        "projectPath": "/app/code/LearnSphere.csproj",
+        "packagesPath": "/root/.nuget/packages/",
+        "outputPath": "/app/code/obj/",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\kuink\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/root/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net9.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -95,7 +88,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.300/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/root/.dotnet/sdk/9.0.301/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

@@ -1,0 +1,148 @@
+@{
+    ViewData["Title"] = "About LearnSphere";
+}
+
+<section class="hero-section bg-primary text-white py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h1 class="display-4 fw-bold mb-3">About LearnSphere</h1>
+                <p class="lead mb-4">Transforming education through innovative digital learning solutions.</p>
+            </div>
+            <div class="col-lg-6 text-center">
+                <i class="fas fa-graduation-cap fa-5x opacity-75"></i>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <div class="text-center mb-5">
+                    <h2 class="h3 mb-3">Our Mission</h2>
+                    <p class="lead text-muted">To create accessible digital learning for all</p>
+                </div>
+
+                <div class="row g-4 mb-5">
+                    <div class="col-md-6">
+                        <div class="card h-100 border-0 shadow-sm">
+                            <div class="card-body text-center p-4">
+                                <i class="fas fa-lightbulb fa-3x text-warning mb-3"></i>
+                                <h5>Innovation</h5>
+                                <p class="text-muted">Cutting-edge educational technology that makes learning engaging and effective.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card h-100 border-0 shadow-sm">
+                            <div class="card-body text-center p-4">
+                                <i class="fas fa-users fa-3x text-success mb-3"></i>
+                                <h5>Accessibility</h5>
+                                <p class="text-muted">Quality education accessible to everyone, anywhere, at any time.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card h-100 border-0 shadow-sm">
+                            <div class="card-body text-center p-4">
+                                <i class="fas fa-chart-line fa-3x text-info mb-3"></i>
+                                <h5>Progress Tracking</h5>
+                                <p class="text-muted">Comprehensive analytics to monitor learning achievements and growth.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card h-100 border-0 shadow-sm">
+                            <div class="card-body text-center p-4">
+                                <i class="fas fa-globe fa-3x text-primary mb-3"></i>
+                                <h5>Global Reach</h5>
+                                <p class="text-muted">Connecting learners worldwide through our comprehensive platform.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center mb-5">
+                    <h3 class="mb-4">What We Offer</h3>
+                    <div class="row">
+                        <div class="col-md-4 mb-4">
+                            <h5><i class="fas fa-book text-primary me-2"></i>Rich Content</h5>
+                            <p class="text-muted">Comprehensive library of educational resources including videos, documents, and interactive materials.</p>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <h5><i class="fas fa-question-circle text-success me-2"></i>Assessments</h5>
+                            <p class="text-muted">Self-paced quizzes and assessments to evaluate understanding and track progress.</p>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <h5><i class="fas fa-flask text-warning me-2"></i>Simulations</h5>
+                            <p class="text-muted">Virtual laboratories and simulations for hands-on learning experiences.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-light p-5 rounded">
+                    <h3 class="text-center mb-4">How It Works</h3>
+                    <div class="row">
+                        <div class="col-md-4 text-center mb-4">
+                            <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                                <span class="fw-bold">1</span>
+                            </div>
+                            <h5>Register</h5>
+                            <p class="text-muted">Create your student account to access all learning resources and track your progress.</p>
+                        </div>
+                        <div class="col-md-4 text-center mb-4">
+                            <div class="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                                <span class="fw-bold">2</span>
+                            </div>
+                            <h5>Learn</h5>
+                            <p class="text-muted">Browse resources, watch videos, read materials, and engage with interactive content.</p>
+                        </div>
+                        <div class="col-md-4 text-center mb-4">
+                            <div class="bg-info text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                                <span class="fw-bold">3</span>
+                            </div>
+                            <h5>Assess</h5>
+                            <p class="text-muted">Take quizzes and assessments to evaluate your understanding and get certified.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center mt-5">
+                    <h3 class="mb-3">Ready to Start Learning?</h3>
+                    <p class="text-muted mb-4">Join thousands of learners who are already advancing their skills with LearnSphere.</p>
+                    @if (User.Identity?.IsAuthenticated == true)
+                    {
+                        <a asp-controller="Resource" asp-action="Index" class="btn btn-primary btn-lg me-3">
+                            <i class="fas fa-play me-2"></i>Continue Learning
+                        </a>
+                    }
+                    else
+                    {
+                        <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-primary btn-lg me-3">
+                            <i class="fas fa-user-plus me-2"></i>Get Started
+                        </a>
+                        <a asp-area="Identity" asp-page="/Account/Login" class="btn btn-outline-primary btn-lg">
+                            <i class="fas fa-sign-in-alt me-2"></i>Login
+                        </a>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="bg-primary text-white py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h3 class="mb-3">Contact Our Team</h3>
+                <p class="mb-4">Have questions about our platform? Our team is here to help you succeed in your learning journey.</p>
+                <a href="#contact" class="btn btn-light btn-lg">
+                    <i class="fas fa-envelope me-2"></i>Get in Touch
+                </a>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,182 @@
+@model List<LearnSphere.Models.ApplicationUser>
+@{
+    ViewData["Title"] = "Manage Users";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3 mb-0">Manage Users</h1>
+    <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-primary">
+        <i class="fas fa-plus me-2"></i>Add New User
+    </a>
+</div>
+
+<!-- Search and Filter -->
+<div class="card mb-4">
+    <div class="card-body">
+        <form method="get" class="row g-3">
+            <div class="col-md-4">
+                <label for="searchTerm" class="form-label">Search Users</label>
+                <input type="text" class="form-control" id="searchTerm" name="searchTerm"
+                       value="@ViewBag.SearchTerm" placeholder="Search by name or email...">
+            </div>
+            <div class="col-md-3">
+                <label for="role" class="form-label">Filter by Role</label>
+                            <select class="form-select" id="role" name="role">
+                                <option value="">All Roles</option>
+                                <option value="Admin" selected="@(ViewBag.SelectedRole == "Admin")">Admin</option>
+                                <option value="Student" selected="@(ViewBag.SelectedRole == "Student")">Student</option>
+                            </select>
+            </div>
+            <div class="col-md-2 d-flex align-items-end">
+                <button type="submit" class="btn btn-outline-primary w-100">
+                    <i class="fas fa-search me-2"></i>Search
+                </button>
+            </div>
+            <div class="col-md-2 d-flex align-items-end">
+                <a href="@Url.Action("ManageUsers")" class="btn btn-outline-secondary w-100">
+                    <i class="fas fa-times me-2"></i>Clear
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Users Table -->
+<div class="card">
+    <div class="card-header">
+        <h5 class="card-title mb-0">Users (@Model.Count)</h5>
+    </div>
+    <div class="card-body">
+        @if (Model.Any())
+        {
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Department</th>
+                            <th>Registration Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var user in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="avatar me-3">
+                                            <i class="fas fa-user-circle fa-2x text-muted"></i>
+                                        </div>
+                                        <div>
+                                            <h6 class="mb-0">@user.FullName</h6>
+                                            <small class="text-muted">@user.Id.Substring(0, 8)...</small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>@user.Email</td>
+                                <td>
+                                    <span class="badge bg-@(user.Role == "Admin" ? "danger" : "success")">
+                                        @user.Role
+                                    </span>
+                                </td>
+                                <td>@user.Department</td>
+                                <td>@user.RegistrationDate.ToString("MMM dd, yyyy")</td>
+                                <td>
+                                    <span class="badge bg-@(user.IsActive ? "success" : "danger")">
+                                        @(user.IsActive ? "Active" : "Inactive")
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="btn-group" role="group">
+                                        <a asp-action="UserDetails" asp-route-id="@user.Id"
+                                           class="btn btn-sm btn-outline-info" title="View Details">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <form asp-action="ToggleUserStatus" asp-route-userId="@user.Id"
+                                              method="post" class="d-inline">
+                                            <button type="submit" class="btn btn-sm btn-outline-@(user.IsActive ? "warning" : "success")"
+                                                    title="@(user.IsActive ? "Deactivate" : "Activate")">
+                                                <i class="fas fa-@(user.IsActive ? "ban" : "check")"></i>
+                                            </button>
+                                        </form>
+                                        @if (user.Email != User.Identity?.Name)
+                                        {
+                                            <button type="button" class="btn btn-sm btn-outline-danger"
+                                                    onclick="confirmDelete('@user.Id', '@user.FullName')" title="Delete">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        }
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            @if (ViewBag.TotalPages > 1)
+            {
+                <nav aria-label="User pagination" class="mt-4">
+                    <ul class="pagination justify-content-center">
+                        @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                        {
+                            <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+                                <a class="page-link" href="@Url.Action("ManageUsers", new {
+                                    page = i,
+                                    searchTerm = ViewBag.SearchTerm,
+                                    role = ViewBag.SelectedRole
+                                })">@i</a>
+                            </li>
+                        }
+                    </ul>
+                </nav>
+            }
+        }
+        else
+        {
+            <div class="text-center py-5">
+                <i class="fas fa-users fa-3x text-muted mb-3"></i>
+                <h5>No users found</h5>
+                <p class="text-muted">Try adjusting your search criteria or add a new user.</p>
+            </div>
+        }
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete user <strong id="deleteUserName"></strong>?</p>
+                <p class="text-danger">This action cannot be undone and will remove all associated progress data.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form id="deleteForm" method="post" class="d-inline">
+                    <button type="submit" class="btn btn-danger">Delete User</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function confirmDelete(userId, userName) {
+            document.getElementById('deleteUserName').textContent = userName;
+            document.getElementById('deleteForm').action = '@Url.Action("DeleteUser")/' + userId;
+            new bootstrap.Modal(document.getElementById('deleteModal')).show();
+        }
+    </script>
+}

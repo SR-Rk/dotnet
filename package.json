@@ -1,0 +1,17 @@
+{
+  "name": "learnsphere",
+  "version": "1.0.0",
+  "description": "LearnSphere ASP.NET Core MVC Application",
+  "scripts": {
+    "install-dotnet": "npm run setup-dotnet",
+    "setup-dotnet": "echo 'Setting up .NET SDK...' && curl -sSL https://dot.net/v1/dotnet-install.sh | bash -s -- --channel 9.0 --install-dir ~/.dotnet",
+    "dev": "export PATH=$PATH:~/.dotnet && dotnet run",
+    "build": "export PATH=$PATH:~/.dotnet && dotnet build",
+    "restore": "export PATH=$PATH:~/.dotnet && dotnet restore",
+    "watch": "export PATH=$PATH:~/.dotnet && dotnet watch run"
+  },
+  "devDependencies": {},
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}
