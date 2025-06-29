@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("LearnSphere")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1a572983d6f35d0cc9ec20f5d844f14b6be6f0f0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+74011ea9456cbfc4741e58b0c1c15229586cabc5")]
 [assembly: System.Reflection.AssemblyProductAttribute("LearnSphere")]
 [assembly: System.Reflection.AssemblyTitleAttribute("LearnSphere")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
